@@ -1,4 +1,4 @@
-vim FROM ruby:2.3
+FROM ruby:2.3
 
 #set env variables
 ENV DISPLAY=":99.0" \
@@ -41,6 +41,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
                 xz-utils \
                 zlib1g-dev \
                 git \
+		libasound2 \
+ 		python-ply \
+		libgl1-mesa-glx \
+		libatk1.0-0 \
+		libdbus-1-3 \
+		libdbus-glib-1-2 \
+		libgtk2.0-0 \
+		libhunspell-1.3-0 \
+		libstartup-notification0 \
+		libxcomposite1 \
         && rm -rf /var/lib/apt/lists/*
 
 #install fake X server
@@ -63,10 +73,13 @@ RUN dpkg -i x11-xkb-utils_7.7+2_amd64.deb
 RUN dpkg -i xserver-common_1.17.3-2_all.deb
 RUN dpkg -i xvfb_1.17.3-2_amd64.deb
 
-RUN wget "https://ftp.mozilla.org/pub/firefox/releases/${FF_VERSION}/linux-x86_64/en-US/firefox-44.0.sdk.tar.bz2" \
-    -O /tmp/firefox.tar.bz2 && \
-    tar xvf /tmp/firefox.tar.bz2 -C /opt && \
-    ln -s /opt/firefox/firefox /usr/bin/firefox
+RUN wget http://security.debian.org/debian-security/pool/updates/main/i/iceweasel/iceweasel_38.6.0esr-1~deb8u1_amd64.deb
+RUN dpkg -i iceweasel_38.6.0esr-1~deb8u1_amd64.deb
+
+#RUN wget "https://ftp.mozilla.org/pub/firefox/releases/${FF_VERSION}/linux-x86_64/en-US/firefox-44.0.sdk.tar.bz2" \
+#    -O /tmp/firefox.tar.bz2 && \
+#    tar xvf /tmp/firefox.tar.bz2 -C /opt && \
+#    ln -s /opt/firefox/firefox /usr/bin/firefox
 
 # install xvfb init script
 COPY xvfb-run /usr/local/bin/

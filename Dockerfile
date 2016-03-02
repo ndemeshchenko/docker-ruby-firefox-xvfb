@@ -40,6 +40,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
                 patch \
                 xz-utils \
                 zlib1g-dev \
+                build-essential \
                 git \
 		libasound2 \
  		python-ply \
@@ -54,7 +55,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && rm -rf /var/lib/apt/lists/*
 
 #install fake X server
-RUN wget http://ftp.us.debian.org/debian/pool/main/x/xorg-server/xvfb_1.17.3-2_amd64.deb
+RUN wget http://ftp.us.debian.org/debian/pool/main/x/xorg-server/xvfb_1.18.1-1_amd64.deb
 RUN wget http://ftp.us.debian.org/debian/pool/main/libx/libxfont/libxfont1_1.5.1-1_amd64.deb
 RUN wget http://ftp.us.debian.org/debian/pool/main/libf/libfontenc/libfontenc1_1.1.2-1+b2_amd64.deb
 RUN wget http://ftp.us.debian.org/debian/pool/main/x/xkeyboard-config/xkb-data_2.12-1_all.deb
@@ -62,7 +63,7 @@ RUN wget http://ftp.us.debian.org/debian/pool/main/libx/libxmu/libxmu6_1.1.2-2_a
 RUN wget http://ftp.us.debian.org/debian/pool/main/libx/libxaw/libxaw7_1.0.13-1_amd64.deb
 RUN wget http://ftp.us.debian.org/debian/pool/main/libx/libxkbfile/libxkbfile1_1.0.8-1_amd64.deb
 RUN wget http://ftp.us.debian.org/debian/pool/main/x/x11-xkb-utils/x11-xkb-utils_7.7+2_amd64.deb
-RUN wget http://ftp.us.debian.org/debian/pool/main/x/xorg-server/xserver-common_1.17.3-2_all.deb
+RUN wget http://ftp.us.debian.org/debian/pool/main/x/xorg-server/xserver-common_1.18.1-1_all.deb
 RUN dpkg -i libfontenc1_1.1.2-1+b2_amd64.deb
 RUN dpkg -i libxfont1_1.5.1-1_amd64.deb
 RUN dpkg -i xkb-data_2.12-1_all.deb
@@ -70,11 +71,11 @@ RUN dpkg -i libxmu6_1.1.2-2_amd64.deb
 RUN dpkg -i libxaw7_1.0.13-1_amd64.deb
 RUN dpkg -i libxkbfile1_1.0.8-1_amd64.deb
 RUN dpkg -i x11-xkb-utils_7.7+2_amd64.deb
-RUN dpkg -i xserver-common_1.17.3-2_all.deb
-RUN dpkg -i xvfb_1.17.3-2_amd64.deb
+RUN dpkg -i xserver-common_1.18.1-1_all.deb
+RUN dpkg -i xvfb_1.18.1-1_amd64.deb
 
-RUN wget http://security.debian.org/debian-security/pool/updates/main/i/iceweasel/iceweasel_38.6.0esr-1~deb8u1_amd64.deb
-RUN dpkg -i iceweasel_38.6.0esr-1~deb8u1_amd64.deb
+RUN wget http://security.debian.org/debian-security/pool/updates/main/i/iceweasel/iceweasel_38.6.1esr-1~deb8u1_amd64.deb
+RUN dpkg -i iceweasel_38.6.1esr-1~deb8u1_amd64.deb
 
 #RUN wget "https://ftp.mozilla.org/pub/firefox/releases/${FF_VERSION}/linux-x86_64/en-US/firefox-44.0.sdk.tar.bz2" \
 #    -O /tmp/firefox.tar.bz2 && \
@@ -84,6 +85,12 @@ RUN dpkg -i iceweasel_38.6.0esr-1~deb8u1_amd64.deb
 # install xvfb init script
 COPY xvfb-run /usr/local/bin/
 RUN chmod +x /usr/local/bin/xvfb-run
+
+#install nodejs
+RUN curl -sL https://deb.nodesource.com/setup_5.x | bash
+RUN apt-get install -y nodejs
+RUN npm install bower -g
+RUN npm install gulp -g
 
 # cleanup
 RUN apt-get clean

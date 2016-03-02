@@ -1,2 +1,6 @@
 # Ruby with headless (xvfb) Firefox
 Docker image based on official ruby and headless Firefox with XVFB
+
+* How to run build
+$ docker build -t ndemeshchenko/avtify_test_env .
+$ docker push
